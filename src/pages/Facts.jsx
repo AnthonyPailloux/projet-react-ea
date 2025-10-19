@@ -25,7 +25,7 @@ function Facts() {
 
             } catch (error) {
                 // s’il y en a une erreur on l'affiche dans la console
-                console.error("Erreur pendant le chargement :", error);
+                console.error("Erreur 404 :", error);
             }
         }
         // on lance la fonction au chargement du composant
