@@ -6,9 +6,6 @@ function Home() {
     // tableau des facts
     const [facts, setFacts] = useState([]);
     
-    // affichage du formulaire
-    const [showAddForm, setShowAddForm] = useState(false);
-    
     // données du nouveau fact
     const [newFact, setNewFact] = useState({
         fact: '',
@@ -42,28 +39,21 @@ function Home() {
 
     // ajout d'un fact
     async function addFact() {
-        try {
-            const response = await fetch("http://localhost:8000/api/facts", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newFact)
-            });
-            
-            if (response.ok) {
-                // rechargement
-                const response = await fetch("http://localhost:8000/api/facts");
-                const data = await response.json();
-                setFacts(data.member);
-                
-                // reset formulaire
-                setNewFact({ fact: '', techno: '' });
-                setShowAddForm(false);
-            }
-        } catch (error) {
-            alert("Erreur lors de l'ajout du fact : " + error.message);
-        }
+        const response = await fetch("http://localhost:8000/api/facts", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newFact)
+        });
+        
+        // rechargement
+        const response2 = await fetch("http://localhost:8000/api/facts");
+        const data = await response2.json();
+        setFacts(data.member);
+        
+        // reset formulaire
+        setNewFact({ fact: '', techno: '' });
     }
 
 
@@ -71,32 +61,25 @@ function Home() {
         <>
             <h2>Liste des Facts</h2>
 
-            {/* bouton ajout */}
-            <button onClick={() => setShowAddForm(!showAddForm)}>
-                {showAddForm ? 'Annuler' : 'Ajouter un fact'}
-            </button>
+            
+            <div>
+                <h3>Ajouter un nouveau fact</h3>
+                <input
+                    type="text"
+                    placeholder="Contenu du fact"
+                    value={newFact.fact}
+                    onChange={(e) => setNewFact({...newFact, fact: e.target.value})}
+                />
+                <input
+                    type="text"
+                    placeholder="Techno"
+                    value={newFact.techno}
+                    onChange={(e) => setNewFact({...newFact, techno: e.target.value})}
+                />
+                <button onClick={addFact}>Ajouter</button>
+            </div>
 
-            {/* formulaire */}
-            {showAddForm && (
-                <div>
-                    <h3>Ajouter un nouveau fact</h3>
-                    <input
-                        type="text"
-                        placeholder="Contenu du fact"
-                        value={newFact.fact}
-                        onChange={(e) => setNewFact({...newFact, fact: e.target.value})}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Technologie"
-                        value={newFact.techno}
-                        onChange={(e) => setNewFact({...newFact, techno: e.target.value})}
-                    />
-                    <button onClick={addFact}>Ajouter</button>
-                </div>
-            )}
-
-            {/* liste des facts */}
+            {/* boucle liste des facts */}
             <ul>
                 {facts.map((fact) => (
                     <li key={fact.id}>
