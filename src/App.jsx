@@ -1,7 +1,6 @@
 
 import './App.css'
-import Nav from './components/Nav'
-import Facts from './pages/Facts'
+import Home from './pages/home'
 import View from './pages/View'
 import { Routes, Route } from 'react-router-dom'
 
@@ -10,19 +9,12 @@ function App() {
 
   return (
     <>
+      <h1>Exo sur l'API "veilleapi"</h1>
+      
       <Routes>
-        <Route path="/" element={<Facts />} />
+        <Route path="/" element={<Home />} />
         <Route path="/facts/:id" element={<View />} />
       </Routes>
-
-
-      <Nav />
-      <h1>Exo sur l'API "veilleapi"</h1>
-      <Facts />
-      <View id={2} />
-
-
-
     </>
   )
 }
