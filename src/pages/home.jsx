@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 
 function Home() {
 
-    // tableau des facts
+      /* on crée une variable fact et une fonction pour mettre à jour sa valeur.
+  useState qui sert à stocker la fact. */
     const [facts, setFacts] = useState([]);
     
-    // données du nouveau fact
+      /* on crée une variable newFact et une fonction pour mettre à jour sa valeur.
+  useState qui sert à stocker la fact. */
     const [newFact, setNewFact] = useState({
         fact: '',
         techno: ''
@@ -15,17 +17,19 @@ function Home() {
     // chargement des facts au montage
     useEffect(() => {
 
-        // récupération des facts
+        // declatration d'une fonction asynchrone pour pouvoir utiliser "await" a l'interieur.
         async function fetchFacts() {
             try {
 
-                // appel API
+                /* appel a l'api. On utilise fetch pour récuperer les facts .
+                Utilisation de await pour pour attendre une réponse avant de continuer l'execution du code.*/
                 const response = await fetch("http://localhost:8000/api/facts");
 
-                // conversion en JSON
+                /* utilisation de la methode json pour convertir la réponse json en objet JS.
+                Await permet d'attendre que la conversion soit terminée. */
                 const data = await response.json();
 
-                // stockage des facts
+                // stock les facts dans la variable facts avec useState
                 setFacts(data.member);
 
             } catch (error) {
@@ -37,22 +41,23 @@ function Home() {
         fetchFacts();
     }, []);
 
-    // ajout d'un fact
+    /*********** ajout d'une fact à l'API **************/
     async function addFact() {
+        // envoi d'une fact a l'api via requête post.
         const response = await fetch("http://localhost:8000/api/facts", {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json', //informe le serveur du type de donnée envoyé.
             },
-            body: JSON.stringify(newFact)
+            body: JSON.stringify(newFact) // convertit editDate en json.
         });
         
-        // rechargement
+        // rechargement de l'api
         const response2 = await fetch("http://localhost:8000/api/facts");
         const data = await response2.json();
         setFacts(data.member);
         
-        // reset formulaire
+        // efface les champs des inputs.
         setNewFact({ fact: '', techno: '' });
     }
 
@@ -67,13 +72,21 @@ function Home() {
                 <input
                     type="text"
                     placeholder="Contenu du fact"
+                    // on assigne à l'attribut value la propriété "fact" de l'objet newFact.
                     value={newFact.fact}
+                    /* met à jour newFact.fact à chaque saisie de l'utilisateur */
+                /* détail: a chaque modification dans l'input modifie la propriété fact de l'objet newFact avec la nouvelle valeur
+                de l'input. (e)etant un objet représentant l'action déclenchée par l'utilisateur contenant les infos et (e.target.value) une de ses propriété contenant la nouvelle valeur de l'input*/
                     onChange={(e) => setNewFact({...newFact, fact: e.target.value})}
                 />
                 <input
                     type="text"
                     placeholder="Techno"
+                    // on assigne à l'attribut value la propriété "techno" de l'objet newFact.
                     value={newFact.techno}
+                    /* met à jour newFact.techno à chaque saisie de l'utilisateur */
+                /* détail: a chaque modification dans l'input modifie la propriété fact de l'objet newFact avec la nouvelle valeur
+                de l'input. (e)etant un objet représentant l'action déclenchée par l'utilisateur contenant les infos et (e.target.value) une de ses propriété contenant la nouvelle valeur de l'input*/
                     onChange={(e) => setNewFact({...newFact, techno: e.target.value})}
                 />
                 <button onClick={addFact}>Ajouter</button>

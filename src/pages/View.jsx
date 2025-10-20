@@ -24,8 +24,8 @@ function View() {
   const { id } = useParams();
   // permet une redirection via le code et non pas par un clic sur un lien.
   const navigate = useNavigate();
-  // on crée une variable fact et une fonction pour mettre à jour sa valeur.
-  // useState qui sert à stocker la fact.
+  /* on crée une variable fact et une fonction pour mettre à jour sa valeur.
+  useState qui sert à stocker la fact. */
   const [fact, setFact] = useState(null);
   
   // on crée une variable isEditing et une fonction pour mettre à jour sa valeur.
@@ -93,7 +93,7 @@ function View() {
     }
   }
 
-  // supprime le fact correspondant depuis l'API
+  /*********** supprime le fact correspondant depuis l'API **************/
   async function deleteFact() {
     try {
       // envoi d'une requête delete à l'API
@@ -130,7 +130,7 @@ function View() {
               <p><strong>Contenu :</strong></p>
               <input
                 type="text"
-                // on appel dans value la propriété fact de l'objet editData.
+                // on assigne à l'attribut value la propriété "fact" de l'objet editData.
                 value={editData.fact}
                 /* met à jour editData.fact à chaque saisie de l'utilisateur */
                 /* détail: a chaque modification dans l'input modifie la propriété fact de l'objet editData avec la nouvelle valeur
@@ -140,7 +140,7 @@ function View() {
               <p><strong>Techno :</strong></p>
               <input
                 type="text"
-                // on appel dans value la propriété techno de l'objet editData.
+                // on assigne à l'attribut value la propriété "techno" de l'objet editData.
                 value={editData.techno}
                 /* met à jour editData.techno à chaque saisie de l'utilisateur */
                 onChange={(e) => setEditData({...editData, techno: e.target.value})}
